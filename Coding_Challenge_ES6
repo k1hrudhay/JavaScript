@@ -39,7 +39,7 @@ class Parks extends General{
         this.area = area;
     };
 
-    treeDensity = function(){
+    treeDensity() {
         this.tDensity = this.nofTrees / this.area;
         return this.tDensity;
     };
