@@ -93,20 +93,30 @@ class Streets extends General {
         this.category = this.setCategory();
     }
 
-    setCategory = function(){
-        switch(true){
-            case this.length > 0.5 && this.length < 1 :
-                return "small";
+    // setCategory = function(){
+    //     switch(true){
+    //         case this.length > 0.5 && this.length < 1 :
+    //             return "small";
             
-            case this.length > 1 && this.length < 3 :
-                return "big"
+    //         case this.length > 1 && this.length < 3 :
+    //             return "big"
 
-            case this.length > 3 :
-                return "huge"
+    //         case this.length > 3 :
+    //             return "huge"
 
-            default :
-                return "normal"
-        }
+    //         default :
+    //             return "normal"
+    //     }
+    // }
+
+    setCategory() {
+        const classify = new Map();
+        classify.set(1,'small');
+        classify.set(2,'normal');
+        classify.set(3,'big');
+        classify.set(4,'huge');
+
+        return classify.get(this.length);
     }
 }
 
