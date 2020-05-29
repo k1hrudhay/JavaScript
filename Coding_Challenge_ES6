@@ -1,0 +1,117 @@
+class General {
+    constructor(name,year) {
+        this.name = name;
+        this.year = year;
+    }
+}
+
+
+class Parks extends General{
+    constructor(name,year,nofTrees,area){
+        super(name,year);
+        this.age = new Date().getFullYear() - this.year;
+        this.nofTrees = nofTrees;
+        this.area = area;
+    };
+
+    treeDensity = function(){
+        this.tDensity = this.nofTrees / this.area;
+        return this.tDensity;
+    };
+
+
+};
+
+
+const parksMap = new Map();
+
+parksMap.set('parkA',new Parks('A Park',1800,15000,10));
+parksMap.set('parkB',new Parks('B Park',1980,25000,15));
+parksMap.set('parkC',new Parks('C Park',1990,35000,25));
+parksMap.set('parkD',new Parks('D Park',1990,30000,17));
+parksMap.set('avgAge', (() => {
+        let aAge = 0;
+        for(let [key,value] of parksMap.entries()){
+            
+            aAge += value.age;
+        };
+        return (aAge/(parksMap.size));
+    
+})());
+
+
+
+// console.log(parksMap);
+
+console.log('-------------  Parks Report --------------');
+console.log(`Our parks have an average of ${parksMap.get('avgAge')} years.`);
+// console.log(``)
+parksMap.forEach((value) => {
+    if(typeof(value) === 'object'){
+        console.log(`${value.name} has a tree density of ${value.treeDensity()} trees per square km.`);
+    }
+    
+});
+
+parksMap.forEach((value) => {
+    if(typeof(value) === 'object'){
+        if(value.nofTrees > 20000){
+            console.log(`${value.name} has more than 20000 trees.`)
+        }
+    }
+});
+
+class Streets extends General {
+    constructor(name,year,length){
+        super(name,year)
+        this.length = length;
+        this.category = this.setCategory();
+    }
+
+    setCategory = function(){
+        switch(true){
+            case this.length > 0.5 && this.length < 1 :
+                return "small";
+            
+            case this.length > 1 && this.length < 3 :
+                return "big"
+
+            case this.length > 3 :
+                return "huge"
+
+            default :
+                return "normal"
+        }
+    }
+}
+
+
+const streetMap = new Map();
+streetMap.set('street 1',new Streets('1 Street ',1800,0.7));
+streetMap.set('street 2',new Streets('2 Street ',1900,5));
+streetMap.set('street 3',new Streets('3 Street ',2000,0.1));
+streetMap.set('street 4',new Streets('4 Street ',2020,2));
+streetMap.set('lengthProperties',(() => {
+    let total = 0;
+    let average = 0;
+    streetMap.forEach(value => {
+        total += value.length;
+    });
+
+    average = total / streetMap.size;
+
+    return [total,average]
+
+
+})());
+
+
+console.log('-------------  Parks Report --------------');
+console.log(`Our ${streetMap.size-1} streets have a total length of ${streetMap.get('lengthProperties')[0]} km, with an average of ${streetMap.get('lengthProperties')[1]} km`);
+
+streetMap.forEach(value => {
+    if(typeof(value) === 'object'){
+        console.log(`${value.name}, built in ${value.year}, is a ${value.category} street.`);
+    }
+});
+
